@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true, // Запрещает использовать null/undefined без проверки
+    "noUnusedLocals": false, // Отключаем в TS, так как это лучше проверяет ESLint
+    "noUnusedParameters": false, // Отключаем в TS, так как это лучше проверяет ESLint
+    "esModuleInterop": true,
+    "sourceMap": true,
+
+    /* Генерация файлов компилятором */
+    "noEmit": false, // Включаем генерацию JS-файлов
+    "outDir": "./dist", // Куда складывать скомпилированный JS
+    "rootDir": "./src", // Где лежит исходный TS-код
+    "skipLibCheck": true,
+
+    "types": ["jest"]
+  },
+  "include": ["src/**/*", "tests"],
+  "exclude": ["node_modules", "dist"]
+}
