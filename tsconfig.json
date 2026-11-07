@@ -11,6 +11,7 @@
     "noUnusedParameters": false, // Отключаем в TS, так как это лучше проверяет ESLint
     "esModuleInterop": true,
     "sourceMap": true,
+    "isolatedModules": true,
 
     /* Генерация файлов компилятором */
     "noEmit": false, // Включаем генерацию JS-файлов
@@ -20,6 +21,6 @@
 
     "types": ["jest"]
   },
-  "include": ["src/**/*", "tests"],
+  "include": ["src/**/*", "**/*.test.ts", "**/*.spec.ts"],
   "exclude": ["node_modules", "dist"]
 }

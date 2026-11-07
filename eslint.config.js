@@ -30,7 +30,7 @@ export default [
   },
   // Конфигурация для файлов тестов Jest
   {
-    files: ['tests'],
+    files: ['**/*.test.ts', '**/*.spec.ts'],
     plugins: {
       jest: jestPlugin,
     },
