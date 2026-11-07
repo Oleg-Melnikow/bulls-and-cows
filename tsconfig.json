@@ -7,11 +7,8 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true, // Запрещает использовать null/undefined без проверки
-    "noUnusedLocals": false, // Отключаем в TS, так как это лучше проверяет ESLint
-    "noUnusedParameters": false, // Отключаем в TS, так как это лучше проверяет ESLint
     "esModuleInterop": true,
     "sourceMap": true,
-    "isolatedModules": true,
 
     /* Генерация файлов компилятором */
     "noEmit": false, // Включаем генерацию JS-файлов
