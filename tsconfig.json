@@ -9,6 +9,7 @@
     "strictNullChecks": true, // Запрещает использовать null/undefined без проверки
     "esModuleInterop": true,
     "sourceMap": true,
+    "isolatedModules": true,
 
     /* Генерация файлов компилятором */
     "noEmit": false, // Включаем генерацию JS-файлов
