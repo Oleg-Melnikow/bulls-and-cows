@@ -1,15 +1,39 @@
-interface GuessResult {
+export interface GuessResult {
   readonly bulls: number;
   readonly cows: number;
 }
 
-enum Base {
+export enum Base {
   Bin = 'bin',
   Oct = 'oct',
   Dec = 'dec',
   Hex = 'hex',
 }
 
-type CharValidator = (char: string) => boolean;
+export type CharValidator = (char: string) => boolean;
 
-export { GuessResult, Base, CharValidator };
+export interface AttemptEntry {
+  readonly guess: string;
+  readonly bulls: number;
+  readonly cows: number;
+}
+
+export interface GuessPayload {
+  readonly attempt: AttemptEntry;
+  readonly currentTime: number;
+}
+
+export interface GameSettings {
+  readonly length: number;
+  readonly base: Base;
+}
+
+export interface GameState {
+  readonly isSettingsPhase: boolean;
+  readonly settings: GameSettings;
+  readonly secret: string;
+  readonly startTime: number | null;
+  readonly endTime: number | null;
+  readonly isWon: boolean;
+  readonly attempts: readonly AttemptEntry[];
+}
