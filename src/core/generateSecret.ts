@@ -1,14 +1,31 @@
 import { Base } from '../types/types.js';
-
-type RandomGenerator = () => number;
+import { ALPHABETS } from '../staticData.js';
 
 export const generateSecret = (
   length: number,
   base: Base,
-  randomFn: RandomGenerator = Math.random
+  random: () => number = Math.random
 ): string => {
-  void length;
-  void base;
-  void randomFn;
-  return '-';
+  const alphabet = ALPHABETS[base];
+
+  if (!Number.isInteger(length) || length < 0 || length > alphabet.size) {
+    return '';
+  }
+
+  const digits = Array.from(alphabet);
+
+  const buildSecret = (currentSecret: string): string => {
+    if (currentSecret.length === length) {
+      return currentSecret;
+    }
+
+    const randomIndex = Math.floor(random() * digits.length);
+    const nextDigit = digits[randomIndex];
+
+    return currentSecret.includes(nextDigit)
+      ? buildSecret(currentSecret)
+      : buildSecret(currentSecret + nextDigit);
+  };
+
+  return buildSecret('');
 };
