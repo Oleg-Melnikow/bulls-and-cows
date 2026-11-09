@@ -92,6 +92,14 @@ body {
   border-color: var(--border-color);
 }
 
+.secret-message {
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #b5edcb;
+}
+
 .btn-primary {
   width: 100%;
   padding: 12px;

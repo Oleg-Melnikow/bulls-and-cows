@@ -1,4 +1,6 @@
+import { countPossibleSecrets } from '../core/countPossibleSecrets.js';
 import { BASE_OPTIONS, LENGTH_OPTIONS, OptionData } from '../staticData.js';
+import { Base, SettingsViewProps } from '../types/types.js';
 import { createDOMElement } from '../utils/createDOMElement.js';
 
 function createBaseSelect(options: readonly OptionData[]): HTMLSelectElement {
@@ -43,7 +45,12 @@ function createStartButton(): HTMLButtonElement {
   });
 }
 
-export function createSettingsScreen(): HTMLDivElement {
+function updateSecret(length: number, base: Base, element: HTMLElement): void {
+  const res = countPossibleSecrets(length, base);
+  element.textContent = `Возможное количество секретных чисел: ${res}`;
+}
+
+export function createSettingsScreen(props: SettingsViewProps): HTMLDivElement {
   const container = createDOMElement('div', { className: 'settings-screen' });
   const card = createDOMElement('div', { className: 'settings-card' });
   const title = createDOMElement('h2', { textContent: 'Настройки игры' });
@@ -54,10 +61,49 @@ export function createSettingsScreen(): HTMLDivElement {
   const lengthSelect = createLengthSelect(LENGTH_OPTIONS);
   const lengthGroup = createControlGroup('Длина числа:', lengthSelect);
 
+  const secretMessage = createDOMElement('div', { className: 'secret-message' });
+
   const startButton = createStartButton();
 
-  card.append(title, baseGroup, lengthGroup, startButton);
+  card.append(title, baseGroup, lengthGroup, secretMessage, startButton);
   container.append(card);
 
+  baseSelect.value = props.base;
+  lengthSelect.value = String(props.length);
+
+  updateSecret(props.length, props.base, secretMessage);
+
+  const updateAvailableLengths = (selectedBase: Base): void => {
+    Array.from(lengthSelect.options).forEach((option) => {
+      const optionLength = Number(option.value);
+
+      if (selectedBase === Base.Bin) {
+        const isLength2 = optionLength === 2;
+        option.disabled = !isLength2;
+        if (!isLength2 && option.selected) {
+          lengthSelect.value = '2';
+        }
+      } else {
+        option.disabled = false;
+      }
+    });
+  };
+
+  updateAvailableLengths(props.base);
+
+  baseSelect.addEventListener('change', (e: Event): void => {
+    const { value } = e.target as HTMLSelectElement;
+    updateAvailableLengths(value as Base);
+    updateSecret(+lengthSelect.value, value as Base, secretMessage);
+  });
+
+  lengthSelect.addEventListener('change', (e: Event): void => {
+    const { value } = e.target as HTMLSelectElement;
+    updateSecret(+value, baseSelect.value as Base, secretMessage);
+  });
+
+  startButton.addEventListener('click', () => {
+    props.onStartGame(Number(lengthSelect.value), baseSelect.value as Base);
+  });
   return container;
 }

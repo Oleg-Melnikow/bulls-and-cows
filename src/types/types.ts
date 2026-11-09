@@ -37,3 +37,9 @@ export interface GameState {
   readonly isWon: boolean;
   readonly attempts: readonly AttemptEntry[];
 }
+
+export interface SettingsViewProps {
+  readonly length: number;
+  readonly base: Base;
+  readonly onStartGame: (length: number, base: Base) => void;
+}

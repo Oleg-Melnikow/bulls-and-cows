@@ -1,6 +1,6 @@
-import { createSettingsScreen } from './components/createSettingsScreen.js';
+import { renderApp } from './components/renderApp.js';
 
 const appRoot = document.querySelector('body');
 if (appRoot) {
-  appRoot.append(createSettingsScreen());
+  renderApp(appRoot);
 }
