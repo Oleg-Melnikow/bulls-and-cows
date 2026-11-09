@@ -10,7 +10,6 @@ export default [
   {
     files: ['**/*.{js,ts}'],
     rules: {
-      'no-undef': 'warn',
       'no-var': 'error',
       'prefer-const': 'error',
       'no-console': 'warn',
