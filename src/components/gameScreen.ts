@@ -36,8 +36,10 @@ export const renderGameScreen = (props: GameViewProps): HTMLElement => {
     disabled: isWon,
   });
 
+  const errorBlock = createDOMElement('div', { className: 'error-message' });
+
   controlsRow.append(input, submitButton);
-  inputGroup.append(label, controlsRow);
+  inputGroup.append(label, controlsRow, errorBlock);
 
   card.append(header);
 
@@ -50,17 +52,48 @@ export const renderGameScreen = (props: GameViewProps): HTMLElement => {
   card.append(inputGroup, historySection);
   container.append(card);
 
-  if (!props.isWon) {
-    const handleAction = (): void => {
-      const attemptsLog = container.querySelector('#attempts-log');
-      attemptsLog?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-
-      const value = input.value.trim();
-      if (value.length > 0) {
-        props.onMakeGuess(value);
-        input.value = '';
-      }
+  if (!isWon) {
+    const showError = (message: string): void => {
+      errorBlock.textContent = message;
+      input.classList.add('input-error');
+      input.select();
     };
+
+    const clearError = (): void => {
+      errorBlock.textContent = '';
+      input.classList.remove('input-error');
+    };
+
+    const handleAction = (): void => {
+      const value = input.value.trim();
+      if (value.length === 0) return;
+
+      const isDuplicate = props.attempts.some(
+        (attempt) => attempt.guess.toLowerCase() === value.toLowerCase()
+      );
+
+      if (isDuplicate) {
+        showError(`Вы уже вводили комбинацию "${value}"`);
+        return;
+      }
+
+      clearError();
+
+      const isValid = props.onMakeGuess(value);
+
+      if (!isValid) {
+        showError(
+          `Неверный ввод! Число должно содержать ровно ${length} ` +
+            `уникальных символов, допустимых в системе ${base.toUpperCase()}.`
+        );
+        return;
+      }
+
+      clearError();
+      input.value = '';
+    };
+
+    input.addEventListener('input', clearError);
 
     submitButton.addEventListener('click', handleAction);
     input.addEventListener('keydown', (event) => {

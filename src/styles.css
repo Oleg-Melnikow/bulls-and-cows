@@ -260,6 +260,13 @@ body {
   cursor: not-allowed;
 }
 
+.error-message {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  min-height: 1.2rem;
+}
+
 .history-section {
   display: flex;
   flex-direction: column;

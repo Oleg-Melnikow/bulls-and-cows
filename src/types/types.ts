@@ -48,6 +48,6 @@ type ExtractedStateProps = Pick<
 >;
 
 export interface GameViewProps extends ExtractedStateProps, GameSettings {
-  readonly onMakeGuess: (guess: string) => void;
+  readonly onMakeGuess: (guess: string) => boolean;
   readonly onReset: () => void;
 }

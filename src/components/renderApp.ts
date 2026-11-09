@@ -34,15 +34,11 @@ function onClickStartGame(
   renderApp(rootContainer);
 }
 
-function onClickMakeGuess(userGuess: string, root: HTMLElement): void {
+function onClickMakeGuess(userGuess: string, root: HTMLElement): boolean {
   const isValid = isValidGuess(userGuess, globalState.settings.length, globalState.settings.base);
 
   if (!isValid) {
-    alert(
-      `Неверный ввод! Число должно содержать ровно ${globalState.settings.length} ` +
-        `уникальных символов, допустимых в системе ${globalState.settings.base.toUpperCase()}.`
-    );
-    return;
+    return isValid;
   }
 
   const guessResult = evaluateGuess(globalState.secret, userGuess);
@@ -57,6 +53,7 @@ function onClickMakeGuess(userGuess: string, root: HTMLElement): void {
   });
 
   renderApp(root);
+  return isValid;
 }
 
 export const renderApp = (rootContainer: HTMLElement): void => {
