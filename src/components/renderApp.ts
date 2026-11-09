@@ -1,8 +1,10 @@
 import { Base, GameState } from '../types/types.js';
-import { startGame } from '../core/gameState.js';
+import { makeGuess, resetToSettings, startGame } from '../core/gameState.js';
 import { generateSecret } from '../core/generateSecret.js';
 import { createSettingsScreen } from './createSettingsScreen.js';
 import { renderGameScreen } from './gameScreen.js';
+import { isValidGuess } from '../core/isValidGuess.js';
+import { evaluateGuess } from '../core/evaluateGuess.js';
 
 const createInitialState = (): GameState =>
   Object.freeze({
@@ -32,6 +34,31 @@ function onClickStartGame(
   renderApp(rootContainer);
 }
 
+function onClickMakeGuess(userGuess: string, root: HTMLElement): void {
+  const isValid = isValidGuess(userGuess, globalState.settings.length, globalState.settings.base);
+
+  if (!isValid) {
+    alert(
+      `Неверный ввод! Число должно содержать ровно ${globalState.settings.length} ` +
+        `уникальных символов, допустимых в системе ${globalState.settings.base.toUpperCase()}.`
+    );
+    return;
+  }
+
+  const guessResult = evaluateGuess(globalState.secret, userGuess);
+
+  globalState = makeGuess(globalState, {
+    attempt: {
+      guess: userGuess,
+      bulls: guessResult.bulls,
+      cows: guessResult.cows,
+    },
+    currentTime: Date.now(),
+  });
+
+  renderApp(root);
+}
+
 export const renderApp = (rootContainer: HTMLElement): void => {
   while (rootContainer.firstChild) {
     rootContainer.removeChild(rootContainer.firstChild);
@@ -55,6 +82,14 @@ export const renderApp = (rootContainer: HTMLElement): void => {
     base: globalState.settings.base,
     isWon: globalState.isWon,
     attempts: globalState.attempts,
+    secret: globalState.secret,
+    startTime: globalState.startTime,
+    endTime: globalState.endTime,
+    onMakeGuess: (userGuess: string) => onClickMakeGuess(userGuess, rootContainer),
+    onReset: () => {
+      globalState = resetToSettings(globalState);
+      renderApp(rootContainer);
+    },
   });
 
   rootContainer.appendChild(gameScreen);

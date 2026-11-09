@@ -38,15 +38,16 @@ export interface GameState {
   readonly attempts: readonly AttemptEntry[];
 }
 
-export interface SettingsViewProps {
-  readonly length: number;
-  readonly base: Base;
+export interface SettingsViewProps extends GameSettings {
   readonly onStartGame: (length: number, base: Base) => void;
 }
 
-export interface GameViewProps {
-  readonly length: number;
-  readonly base: Base;
-  readonly isWon: boolean;
-  readonly attempts: readonly AttemptEntry[];
+type ExtractedStateProps = Pick<
+  GameState,
+  'isWon' | 'secret' | 'startTime' | 'endTime' | 'attempts'
+>;
+
+export interface GameViewProps extends ExtractedStateProps, GameSettings {
+  readonly onMakeGuess: (guess: string) => void;
+  readonly onReset: () => void;
 }
