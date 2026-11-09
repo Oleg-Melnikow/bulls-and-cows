@@ -51,3 +51,9 @@ export interface GameViewProps extends ExtractedStateProps, GameSettings {
   readonly onMakeGuess: (guess: string) => boolean;
   readonly onReset: () => void;
 }
+
+export interface LeaderboardEntry extends GameSettings {
+  readonly attemptsCount: number;
+  readonly duration: number;
+  readonly date: string;
+}

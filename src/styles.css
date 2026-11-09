@@ -151,7 +151,7 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 15px;
 }
 
 .game-header {
@@ -238,7 +238,7 @@ body {
 }
 
 .btn-secondary {
-  padding: 12px 24px;
+  padding: 12px 20px;
   font-size: 16px;
   font-weight: 600;
   color: #ffffff;
@@ -353,4 +353,85 @@ body {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+.leaderboard-section {
+  border-top: 1px dashed var(--border-color);
+  padding-top: 15px;
+}
+
+.leaderboard-section h4 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: center;
+}
+
+.no-records {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-style: italic;
+  margin: 8px 0;
+}
+
+.leaderboard-table {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 90px 130px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: var(--text-main);
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.leaderboard-row span {
+  text-align: center;
+}
+
+.leaderboard-row:last-child {
+  border-bottom: none;
+}
+
+.header-row {
+  background-color: #e2e8f0;
+  font-weight: 700;
+  color: var(--text-main);
+  text-align: center;
+}
+
+.cell-rank {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.cell-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+}
+
+.cell-mode {
+  font-family: monospace;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.cell-attempts,
+.cell-time {
+  text-align: center;
+  font-weight: 600;
 }
