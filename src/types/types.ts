@@ -43,3 +43,10 @@ export interface SettingsViewProps {
   readonly base: Base;
   readonly onStartGame: (length: number, base: Base) => void;
 }
+
+export interface GameViewProps {
+  readonly length: number;
+  readonly base: Base;
+  readonly isWon: boolean;
+  readonly attempts: readonly AttemptEntry[];
+}

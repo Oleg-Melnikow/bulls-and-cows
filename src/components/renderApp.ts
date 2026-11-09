@@ -2,6 +2,7 @@ import { Base, GameState } from '../types/types.js';
 import { startGame } from '../core/gameState.js';
 import { generateSecret } from '../core/generateSecret.js';
 import { createSettingsScreen } from './createSettingsScreen.js';
+import { renderGameScreen } from './gameScreen.js';
 
 const createInitialState = (): GameState =>
   Object.freeze({
@@ -48,4 +49,13 @@ export const renderApp = (rootContainer: HTMLElement): void => {
     rootContainer.append(settingsScreen);
     return;
   }
+
+  const gameScreen = renderGameScreen({
+    length: globalState.settings.length,
+    base: globalState.settings.base,
+    isWon: globalState.isWon,
+    attempts: globalState.attempts,
+  });
+
+  rootContainer.appendChild(gameScreen);
 };
