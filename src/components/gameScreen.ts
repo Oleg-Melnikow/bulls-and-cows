@@ -1,3 +1,4 @@
+import { createDigitValidator } from '../core/createDigitValidator.js';
 import { Base, GameViewProps } from '../types/types.js';
 import { createDOMElement } from '../utils/createDOMElement.js';
 import { formatTime } from '../utils/formatTime.js';
@@ -92,6 +93,26 @@ export const renderGameScreen = (props: GameViewProps): HTMLElement => {
       clearError();
       input.value = '';
     };
+
+    const isCharValid = createDigitValidator(props.base);
+
+    input.addEventListener('beforeinput', (event: InputEvent) => {
+      const nextChar = event.data;
+
+      if (nextChar && nextChar.length === 1) {
+        if (!isCharValid(nextChar)) {
+          event.preventDefault();
+        }
+      }
+    });
+
+    input.addEventListener('input', () => {
+      const filteredValue = input.value.split('').filter(isCharValid).join('');
+
+      if (input.value !== filteredValue) {
+        input.value = filteredValue;
+      }
+    });
 
     input.addEventListener('input', clearError);
 
